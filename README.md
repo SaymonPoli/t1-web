@@ -1,5 +1,30 @@
 # t1-web
 
+## Como Executar
+
+### 1. Configurar Variáveis de Ambiente
+Copie o arquivo de exemplo para as variáveis de ambiente:
+```bash
+cp .env.example .env
+```
+Edite o arquivo `.env` com suas credenciais, se necessário.
+
+### 2. Subir o Banco de Dados (Docker)
+Certifique-se de ter o Docker instalado e execute:
+```bash
+docker-compose up -d
+```
+
+### 3. Instalar Dependências e Rodar a Aplicação
+Instale as dependências do Node.js:
+```bash
+npm install
+```
+Inicie o servidor:
+```bash
+npm start
+```
+
 # Folder structure
 
 . 
