@@ -12,6 +12,8 @@
 ├── simulators/             # Scripts Node.js para os sensores 
 │   └── sensor.js           # Executar via terminal: node sensor.js <DeviceID> <DevicePWD>
 ├── src/
+│   ├── config/             # Database connection setup
+│   │   └── db.js
 │   ├── controllers/        # Regras de negócio das rotas da API
 │   │   ├── authController.js
 │   │   ├── clientController.js
@@ -26,4 +28,4 @@
 │       └── apiRoutes.js
 ├── .env                    # Variáveis de ambiente (porta, db, jwt secret)
 ├── package.json
-└── index.js               # Ponto de entrada principal da aplicação
+└── server.js               # Ponto de entrada principal da aplicação

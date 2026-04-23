@@ -6,8 +6,8 @@ services:
     ports:
       - "27017:27017" # Expose MongoDB on the default port
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root # Set the admin username
-      MONGO_INITDB_ROOT_PASSWORD: password # Set the admin password
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER} # Set the admin username
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD} # Set the admin password
     volumes:
       - mongo-data:/data/db # Persist MongoDB data
       - mongo-config:/data/configdb # Persist MongoDB configuration
