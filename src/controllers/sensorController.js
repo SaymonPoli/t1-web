@@ -71,5 +71,33 @@ export const sensorController = {
     } catch (error) {
       return res.status(500).json({ error: 'Erro ao remover o sensor.' });
     }
-  }
+  },
+// Nova função para o simulador enviar dados
+  async receiveData(req, res) {
+    try {
+      const { DeviceID, DevicePWD, valor } = req.body;
+
+      // 1. Procura o sensor e valida a senha
+      const sensor = await Sensor.findOne({ DeviceID });
+
+      if (!sensor) {
+        return res.status(404).json({ error: 'Dispositivo não encontrado.' });
+      }
+
+      if (sensor.DevicePWD !== DevicePWD) {
+        return res.status(401).json({ error: 'Senha do dispositivo inválida.' });
+      }
+
+      // 2. Atualiza o valor
+      sensor.valor = valor;
+      await sensor.save();
+
+      return res.status(200).json({ message: 'Dado recebido com sucesso!', valor: sensor.valor });
+    } catch (error) {
+      return res.status(500).json({ error: 'Erro ao processar dados do sensor.' });
+    }
+  },
+
+
+
 };

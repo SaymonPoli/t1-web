@@ -15,4 +15,7 @@ router.put('/sensors/:id', sensorController.updateSensor);
 // Remover um dispositivo
 router.delete('/sensors/:id', sensorController.deleteSensor);
 
+// Rota para o simulador enviar dados
+router.post('/sensors/data', sensorController.receiveData);
+
 export default router;
