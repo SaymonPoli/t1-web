@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import { configDotenv } from "dotenv";
 import apiRoutes from "./src/routes/apiRoutes.js"; 
+import authRoutes from "./src/routes/authRoutes.js";
 
 // 1. Carrega as variáveis de ambiente do arquivo .env
 configDotenv();
@@ -11,6 +12,7 @@ const PORT = 3000;
 
 app.use(express.json());
 app.use("/api", apiRoutes);
+app.use("/auth", authRoutes);
 
 async function startServer() {
     try {
