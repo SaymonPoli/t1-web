@@ -1,19 +1,23 @@
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt'; 
 import { Client } from '../models/Client.js';
 
 export const authController = {
-  // 1. Cadastrar um novo cliente
+  // Cadastrar
   async register(req, res) {
     try {
       const { nome, email, password } = req.body;
 
-      // Verifica se o email já está em uso
       const clientExists = await Client.findOne({ email });
       if (clientExists) {
         return res.status(400).json({ error: 'Este email já está cadastrado.' });
       }
 
-      const newClient = new Client({ nome, email, password });
+      // 2. Criptografamos a senha com um "salt" de 10 rodadas (padrão de segurança)
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      // 3. Salvamos o cliente com a senha protegida
+      const newClient = new Client({ nome, email, password: hashedPassword });
       await newClient.save();
 
       return res.status(201).json({ message: 'Cliente cadastrado com sucesso!' });
@@ -22,24 +26,22 @@ export const authController = {
     }
   },
 
-  // 2. Fazer Login e gerar o Token
+  // Login
   async login(req, res) {
     try {
       const { email, password } = req.body;
 
-      // Busca o cliente pelo email
       const client = await Client.findOne({ email });
       if (!client) {
         return res.status(404).json({ error: 'Cliente não encontrado.' });
       }
 
-      // Verifica se a senha bate
-      if (client.password !== password) {
+      // 4. Comparamos a senha digitada com o "hash" salvo no banco
+      const isValidPassword = await bcrypt.compare(password, client.password);
+      if (!isValidPassword) {
         return res.status(401).json({ error: 'Senha incorreta.' });
       }
 
-      // Gera o Token JWT (Validade de 1 hora)
-      // Usamos uma chave secreta do .env ou uma padrão de fallback
       const secret = process.env.JWT_SECRET || 'chave_super_secreta_padrao';
       const token = jwt.sign(
         { id: client._id, email: client.email }, 
