@@ -37,6 +37,7 @@ node simulators/sensor.js <DeviceID> <DevicePWD>
 
 # Folder structure
 
+```bash
 . 
 ├── public/                 # Arquivos estáticos da aplicação web 
 │   ├── index.html          # Dashboard principal
@@ -64,3 +65,4 @@ node simulators/sensor.js <DeviceID> <DevicePWD>
 ├── .env                    # Variáveis de ambiente (porta, db, jwt secret)
 ├── package.json
 └── server.js               # Ponto de entrada principal da aplicação
+```
