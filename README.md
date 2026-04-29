@@ -24,6 +24,16 @@ Inicie o servidor:
 ```bash
 npm start
 ```
+### 4. Como Usar o Simulador de Sensores
+
+O projeto inclui um script independente para simular os dispositivos IoT em operação. O simulador envia dados (valores numéricos gerados aleatoriamente) para a API a cada 5 segundos.
+
+Para iniciar um simulador, você precisará do `DeviceID` e da `DevicePWD`, que são gerados automaticamente quando você cadastra um novo sensor na aplicação web.
+
+Abra o terminal e execute o script passando as credenciais como argumentos:
+```bash
+node simulators/sensor.js <DeviceID> <DevicePWD>
+``` 
 
 # Folder structure
 
