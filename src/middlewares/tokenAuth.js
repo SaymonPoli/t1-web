@@ -26,6 +26,6 @@ export const verifyToken = (req, res, next) => {
     // 4. Libera a catraca para o usuario continuar
     next();
   } catch (error) {
-    return res.status(401).json({ error: 'Token inválido ou expirado. Faça login novamente.' });
+    return res.status(401).json({ error: 'Token expirado, tente novamente ' });
   }
 };
