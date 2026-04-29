@@ -15,7 +15,7 @@ async function runSensor() {
     const simulatedValue = (Math.random() * 50).toFixed(2);
 
     try {
-      const res = await fetch("http://localhost:3000/api/sensores/dados", {
+      const res = await fetch("http://localhost:3000/api/sensors/data", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
