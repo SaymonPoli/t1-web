@@ -2,7 +2,7 @@
 const [deviceID, devicePWD] = process.argv.slice(2);
 
 if (!deviceID || !devicePWD) {
-  console.error("Missing credentials. Run: node sensor.js <ID> <PWD>");
+  console.error("Missing credentials.");
   process.exit(1);
 }
 

@@ -1,200 +1,267 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sensores - T1</title>
-    <!-- Usa o CSS existente apontando para o caminho correto -->
-    <link rel="stylesheet" href="/pages/css/style.css">
-    <style>
-        /* Ajustes adicionais simples para esconder/mostrar telas */
-        .hidden { display: none !important; }
-        
-        /* Estilos do Dashboard Profissional */
-        .dashboard-container { 
-            max-width: 1000px; 
-            width: 95%;
-            padding: 0; 
-            margin-top: 20px;
-            background-color: transparent; /* Remove background do card principal */
-            box-shadow: none;
-        }
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #fff;
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        .dashboard-header h1 { margin: 0; font-size: 1.5rem; text-align: left; }
-        .dashboard-header .user-info { font-size: 1rem; color: #555; }
-        
-        .dashboard-actions {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 20px;
-        }
-        .btn-new-sensor { width: auto; background-color: #28a745; margin-right: 10px; }
-        .btn-new-sensor:hover { background-color: #218838; }
-        .logout-btn { width: auto; background-color: #d9534f; margin: 0; }
-        .logout-btn:hover { background-color: #c9302c; }
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Sensores - T1</title>
+        <link rel="stylesheet" href="/pages/css/style.css" />
+        <style>
+            .hidden {
+                display: none !important;
+            }
 
-        .add-sensor-panel {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            border-left: 4px solid #28a745;
-        }
+            .dashboard-container {
+                max-width: 1000px;
+                width: 95%;
+                padding: 0;
+                margin-top: 20px;
+                background-color: transparent;
+                box-shadow: none;
+            }
+            .dashboard-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background-color: #fff;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                margin-bottom: 20px;
+            }
+            .dashboard-header h1 {
+                margin: 0;
+                font-size: 1.5rem;
+                text-align: left;
+            }
+            .dashboard-header .user-info {
+                font-size: 1rem;
+                color: #555;
+            }
 
-        /* Grid de Sensores */
-        .sensor-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
+            .dashboard-actions {
+                display: flex;
+                justify-content: flex-end;
+                margin-bottom: 20px;
+            }
+            .btn-new-sensor {
+                width: auto;
+                background-color: #28a745;
+                margin-right: 10px;
+            }
+            .btn-new-sensor:hover {
+                background-color: #218838;
+            }
+            .logout-btn {
+                width: auto;
+                background-color: #d9534f;
+                margin: 0;
+            }
+            .logout-btn:hover {
+                background-color: #c9302c;
+            }
 
-        .sensor-widget {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            border-top: 4px solid #333;
-        }
+            .add-sensor-panel {
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                margin-bottom: 20px;
+                border-left: 4px solid #28a745;
+            }
 
-        .sensor-widget-header {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .sensor-widget-header strong { font-size: 1.1rem; color: #333; }
-        
-        .sensor-widget-body {
-            padding: 30px 15px;
-            text-align: center;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .sensor-value {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #007bff;
-            margin: 0;
-            line-height: 1;
-        }
-        .sensor-unit { font-size: 1rem; color: #777; margin-top: 5px; }
+            .sensor-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 20px;
+            }
 
-        .sensor-widget-footer {
-            background-color: #f9f9f9;
-            padding: 10px 15px;
-            font-size: 0.8rem;
-            color: #666;
-            border-top: 1px solid #eee;
-        }
-        .sensor-widget-footer code { background: #eee; padding: 2px 4px; border-radius: 3px; }
+            .sensor-widget {
+                background-color: #fff;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                border-top: 4px solid #333;
+            }
 
-        .sensor-actions-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 15px;
-            background-color: #fff;
-        }
-        .sensor-actions-row button {
-            width: 48%;
-            padding: 6px;
-            font-size: 0.85rem;
-        }
-        .btn-edit { background-color: #f0ad4e; color: #fff; }
-        .btn-edit:hover { background-color: #ec971f; }
-        .btn-delete { background-color: #d9534f; color: #fff; }
-        .btn-delete:hover { background-color: #c9302c; }
-    </style>
-</head>
-<body>
+            .sensor-widget-header {
+                padding: 15px;
+                border-bottom: 1px solid #eee;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .sensor-widget-header strong {
+                font-size: 1.1rem;
+                color: #333;
+            }
 
-    <!-- TELA DE LOGIN -->
-    <div id="login-view" class="card">
-        <h1>Login</h1>
-        <form id="login-form">
-            <label for="login-email">Email</label>
-            <input type="email" id="login-email" required>
-            
-            <label for="login-password">Senha</label>
-            <input type="password" id="login-password" required>
-            
-            <div id="login-error" class="error"></div>
-            
-            <button type="submit">Entrar</button>
-        </form>
-        <div class="link-row">
-            <a href="#" id="go-to-register">Não possui conta? Cadastre-se</a>
-        </div>
-    </div>
+            .sensor-widget-body {
+                padding: 30px 15px;
+                text-align: center;
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .sensor-value {
+                font-size: 2.5rem;
+                font-weight: bold;
+                color: #007bff;
+                margin: 0;
+                line-height: 1;
+            }
+            .sensor-unit {
+                font-size: 1rem;
+                color: #777;
+                margin-top: 5px;
+            }
 
-    <!-- TELA DE CADASTRO -->
-    <div id="register-view" class="card hidden">
-        <h1>Cadastro</h1>
-        <form id="register-form">
-            <label for="register-name">Nome</label>
-            <input type="text" id="register-name" required>
+            .sensor-widget-footer {
+                background-color: #f9f9f9;
+                padding: 10px 15px;
+                font-size: 0.8rem;
+                color: #666;
+                border-top: 1px solid #eee;
+            }
+            .sensor-widget-footer code {
+                background: #eee;
+                padding: 2px 4px;
+                border-radius: 3px;
+            }
 
-            <label for="register-email">Email</label>
-            <input type="email" id="register-email" required>
-            
-            <label for="register-password">Senha</label>
-            <input type="password" id="register-password" required>
-            
-            <div id="register-error" class="error"></div>
-            
-            <button type="submit">Cadastrar</button>
-        </form>
-        <div class="link-row">
-            <a href="#" id="go-to-login">Já possui conta? Faça login</a>
-        </div>
-    </div>
+            .sensor-actions-row {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px 15px;
+                background-color: #fff;
+            }
+            .sensor-actions-row button {
+                width: 48%;
+                padding: 6px;
+                font-size: 0.85rem;
+            }
+            .btn-edit {
+                background-color: #f0ad4e;
+                color: #fff;
+            }
+            .btn-edit:hover {
+                background-color: #ec971f;
+            }
+            .btn-delete {
+                background-color: #d9534f;
+                color: #fff;
+            }
+            .btn-delete:hover {
+                background-color: #c9302c;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="login-view" class="card">
+            <h1>Login</h1>
+            <form id="login-form">
+                <label for="login-email">Email</label>
+                <input type="email" id="login-email" required />
 
-    <!-- TELA DO DASHBOARD -->
-    <div id="dashboard-view" class="card dashboard-container hidden">
-        <div class="dashboard-header">
-            <div>
-                <h1>Painel de Monitoramento</h1>
-                <div id="user-info" class="user-info"></div>
-            </div>
-            <div class="dashboard-actions">
-                <button id="toggle-add-sensor-btn" class="btn-new-sensor">+ Novo Sensor</button>
-                <button id="logout-btn" class="logout-btn">Sair</button>
-            </div>
-        </div>
-        
-        <div id="add-sensor-panel" class="add-sensor-panel hidden">
-            <h3>Adicionar Novo Sensor</h3>
-            <form id="add-sensor-form">
-                <label for="sensor-apelido">Apelido do Sensor</label>
-                <input type="text" id="sensor-apelido" required>
-                <label for="sensor-unidade">Unidade de Medida</label>
-                <input type="text" id="sensor-unidade" placeholder="Ex: °C, kg, %, cm" required>
-                <button type="submit" style="width: auto; padding: 10px 20px; background-color: #28a745;">Cadastrar Sensor</button>
-                <button type="button" id="cancel-add-sensor-btn" style="width: auto; padding: 10px 20px; background-color: #ccc; color: #333; margin-left: 10px;">Cancelar</button>
+                <label for="login-password">Senha</label>
+                <input type="password" id="login-password" required />
+
+                <div id="login-error" class="error"></div>
+
+                <button type="submit">Entrar</button>
             </form>
-            <div id="dashboard-error" class="error" style="margin-top: 10px;"></div>
+            <div class="link-row">
+                <a href="#" id="go-to-register"
+                    >Não possui conta? Cadastre-se</a
+                >
+            </div>
         </div>
 
-        <div id="sensor-list" class="sensor-grid">
-            <!-- Widgets dos sensores serão injetados aqui -->
-            Carregando sensores...
-        </div>
-    </div>
+        <div id="register-view" class="card hidden">
+            <h1>Cadastro</h1>
+            <form id="register-form">
+                <label for="register-name">Nome</label>
+                <input type="text" id="register-name" required />
 
-    <script src="/js/app.js"></script>
-</body>
+                <label for="register-email">Email</label>
+                <input type="email" id="register-email" required />
+
+                <label for="register-password">Senha</label>
+                <input type="password" id="register-password" required />
+
+                <div id="register-error" class="error"></div>
+
+                <button type="submit">Cadastrar</button>
+            </form>
+            <div class="link-row">
+                <a href="#" id="go-to-login">Já possui conta? Faça login</a>
+            </div>
+        </div>
+
+        <div id="dashboard-view" class="card dashboard-container hidden">
+            <div class="dashboard-header">
+                <div>
+                    <h1>Painel de Monitoramento</h1>
+                    <div id="user-info" class="user-info"></div>
+                </div>
+                <div class="dashboard-actions">
+                    <button id="toggle-add-sensor-btn" class="btn-new-sensor">
+                        + Novo Sensor
+                    </button>
+                    <button id="logout-btn" class="logout-btn">Sair</button>
+                </div>
+            </div>
+
+            <div id="add-sensor-panel" class="add-sensor-panel hidden">
+                <h3>Adicionar Novo Sensor</h3>
+                <form id="add-sensor-form">
+                    <label for="sensor-apelido">Apelido do Sensor</label>
+                    <input type="text" id="sensor-apelido" required />
+                    <label for="sensor-unidade">Unidade de Medida</label>
+                    <input
+                        type="text"
+                        id="sensor-unidade"
+                        placeholder="Ex: °C, kg, %, cm"
+                        required
+                    />
+                    <button
+                        type="submit"
+                        style="
+                            width: auto;
+                            padding: 10px 20px;
+                            background-color: #28a745;
+                        "
+                    >
+                        Cadastrar Sensor
+                    </button>
+                    <button
+                        type="button"
+                        id="cancel-add-sensor-btn"
+                        style="
+                            width: auto;
+                            padding: 10px 20px;
+                            background-color: #ccc;
+                            color: #333;
+                            margin-left: 10px;
+                        "
+                    >
+                        Cancelar
+                    </button>
+                </form>
+                <div
+                    id="dashboard-error"
+                    class="error"
+                    style="margin-top: 10px"
+                ></div>
+            </div>
+
+            <div id="sensor-list" class="sensor-grid">
+                Carregando sensores...
+            </div>
+        </div>
+
+        <script src="/js/app.js"></script>
+    </body>
 </html>
